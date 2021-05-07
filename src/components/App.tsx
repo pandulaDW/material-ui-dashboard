@@ -1,5 +1,6 @@
 import SideMenu from "./SideMenu";
 import { useStyles } from "../styles/App";
+import Header from "./Header";
 
 function App() {
   const classes = useStyles();
@@ -7,7 +8,9 @@ function App() {
   return (
     <>
       <SideMenu />
-      <div className={classes.appMain}>Here we go!</div>
+      <div className={classes.appMain}>
+        <Header />
+      </div>
     </>
   );
 }
