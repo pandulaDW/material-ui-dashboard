@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
-import { FormControl, FormLabel } from "@material-ui/core";
-import { Input, RadioGroupCustom as RadioGroup } from "./Controls";
+import { Input, RadioGroup, Select } from "./Controls";
 import { useForm, Form } from "./useForm";
+import { getDepartmentCollection } from "../services/employeeService";
 
 enum gender {
   male = "male",
@@ -46,15 +46,19 @@ const EmployeeForm = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <FormControl>
-            <FormLabel>Gender</FormLabel>
-            <RadioGroup
-              name="gender"
-              value={values.gender}
-              onChange={handleInputChange}
-              options={radioOptions}
-            />
-          </FormControl>
+          <RadioGroup
+            name="gender"
+            value={values.gender}
+            onChange={handleInputChange}
+            options={radioOptions}
+          />
+          <Select
+            name="departmentId"
+            label="Department"
+            value={values.departmentId}
+            onChange={handleInputChange}
+            options={getDepartmentCollection()}
+          />
         </Grid>
       </Grid>
     </Form>
