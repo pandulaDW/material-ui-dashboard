@@ -1,6 +1,13 @@
-import { useState } from "react";
-import { Grid, TextField } from "@material-ui/core";
-import { useStyles } from "../styles/Employees";
+import { Grid, Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormLabel, FormControlLabel } from "@material-ui/core";
+import { Input } from "./Controls";
+import { useForm, Form } from "./useForm";
+
+enum gender {
+  male = "male",
+  female = "female",
+  other = "other",
+}
 
 const initalFieldValues = {
   id: 0,
@@ -8,43 +15,62 @@ const initalFieldValues = {
   email: "",
   mobile: "",
   city: "",
-  gender: "male",
+  gender: gender.male,
   departmentId: "",
   hireDate: new Date(),
   isPermenant: false,
 };
 
 const EmployeeForm = () => {
-  const [values, setValues] = useState(initalFieldValues);
-  const classes = useStyles();
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
+  const { values, handleInputChange } = useForm(initalFieldValues);
+  console.log(values.gender);
 
   return (
-    <form className={classes.rootForm}>
+    <Form>
       <Grid container>
         <Grid item xs={6}>
-          <TextField
-            variant="outlined"
+          <Input
             label="Full Name"
             value={values.fullName}
             name="fullName"
-            onChange={handleInputChange}
+            handleInputChange={handleInputChange}
           />
-          <TextField
-            variant="outlined"
+          <Input
             label="Email"
             value={values.email}
             name="email"
-            onChange={handleInputChange}
+            handleInputChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={6}></Grid>
+        <Grid item xs={6}>
+          <FormControl>
+            <FormLabel>Gender</FormLabel>
+            <RadioGroup
+              row
+              name="gender"
+              value={values.gender}
+              onChange={handleInputChange}
+            >
+              <FormControlLabel
+                value={gender.male}
+                control={<Radio />}
+                label="Male"
+              />
+              <FormControlLabel
+                value={gender.female}
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel
+                value={gender.other}
+                control={<Radio />}
+                label="Other"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
       </Grid>
-    </form>
+    </Form>
   );
 };
 
