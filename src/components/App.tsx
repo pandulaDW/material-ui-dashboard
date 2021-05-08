@@ -1,8 +1,7 @@
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
-import PeopleOutlinedIcon from "@material-ui/icons/PeopleOutlined";
 import SideMenu from "./SideMenu";
 import Header from "./Header";
-import PageHeader from "./PageHeader";
+import Employees from "./Employees";
 import { useStyles } from "../styles/App";
 import theme from "../theme";
 
@@ -15,11 +14,7 @@ function App() {
       <SideMenu />
       <div className={classes.appMain}>
         <Header />
-        <PageHeader
-          title="Page Header"
-          subtitle="Page Description"
-          icon={<PeopleOutlinedIcon fontSize="large" />}
-        />
+        <Employees />
       </div>
     </ThemeProvider>
   );
