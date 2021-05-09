@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { Input, RadioGroup, Select, CheckBox } from "./Controls";
 import { useForm, Form } from "./useForm";
+import DatePicker from "./DatePicker";
 import { getDepartmentCollection } from "../services/employeeService";
 
 enum gender {
@@ -44,6 +45,18 @@ const EmployeeForm = () => {
             name="email"
             onChange={handleInputChange}
           />
+          <Input
+            label="Mobile"
+            value={values.mobile}
+            name="mobile"
+            onChange={handleInputChange}
+          />
+          <Input
+            label="City"
+            value={values.city}
+            name="city"
+            onChange={handleInputChange}
+          />
         </Grid>
         <Grid item xs={6}>
           <RadioGroup
@@ -58,6 +71,13 @@ const EmployeeForm = () => {
             value={values.departmentId}
             onChange={handleInputChange}
             options={getDepartmentCollection()}
+          />
+          <DatePicker
+            value={values.hireDate}
+            label="Hire Date"
+            handleChange={(date) => {
+              if (date) setValues({ ...values, hireDate: date });
+            }}
           />
           <CheckBox
             checked={values.isPermanent}
