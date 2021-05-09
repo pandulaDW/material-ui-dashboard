@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import { Input, RadioGroup, Select } from "./Controls";
+import { Input, RadioGroup, Select, CheckBox } from "./Controls";
 import { useForm, Form } from "./useForm";
 import { getDepartmentCollection } from "../services/employeeService";
 
@@ -22,7 +22,7 @@ const initialFieldValues = {
 };
 
 const EmployeeForm = () => {
-  const { values, handleInputChange } = useForm(initialFieldValues);
+  const { values, setValues, handleInputChange } = useForm(initialFieldValues);
   const radioOptions = Object.keys(gender).map((item) => ({
     id: item,
     title: item[0].toUpperCase() + item.slice(1),
@@ -58,6 +58,14 @@ const EmployeeForm = () => {
             value={values.departmentId}
             onChange={handleInputChange}
             options={getDepartmentCollection()}
+          />
+          <CheckBox
+            checked={values.isPermanent}
+            name={"isPermanent"}
+            label="Permanent Employee"
+            onChange={() => {
+              setValues({ ...values, isPermanent: !values.isPermanent });
+            }}
           />
         </Grid>
       </Grid>

@@ -4,13 +4,14 @@ import {
   TextField,
   Select as MuiSelect,
   MenuItem,
+  Checkbox as MuiCheckBox,
 } from "@material-ui/core";
 import { Radio, RadioGroup as MuiRadioGroup } from "@material-ui/core";
 import { FormControl, FormLabel, FormControlLabel } from "@material-ui/core";
 
 interface ControlProps {
   label?: string;
-  value: string;
+  value?: string;
   name: string;
   onChange: (
     e: React.ChangeEvent<
@@ -74,5 +75,21 @@ export const Select: React.FC<SelectProps> = (props) => {
         ))}
       </MuiSelect>
     </FormControl>
+  );
+};
+
+interface CheckBoxProps extends ControlProps {
+  checked: boolean;
+}
+
+export const CheckBox: React.FC<CheckBoxProps> = (props) => {
+  const { label, checked, name, onChange } = props;
+  return (
+    <FormControlLabel
+      control={
+        <MuiCheckBox checked={checked} name={name} onChange={onChange} />
+      }
+      label={label}
+    />
   );
 };

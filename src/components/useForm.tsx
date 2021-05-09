@@ -10,10 +10,12 @@ export function useForm<T>(initialFieldValues: T) {
     >
   ) => {
     const { name, value } = e.target;
-    if (name) setValues({ ...values, [name]: value });
+    if (!name) return;
+
+    setValues({ ...values, [name]: value });
   };
 
-  return { values, handleInputChange };
+  return { values, setValues, handleInputChange };
 }
 
 export const Form: React.FC = (props) => {
