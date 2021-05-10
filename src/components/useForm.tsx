@@ -3,6 +3,7 @@ import { useStyles } from "../styles/Employees";
 
 export function useForm<T>(initialFieldValues: T) {
   const [values, setValues] = useState(initialFieldValues);
+  const [errors, setErrors] = useState({});
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -15,10 +16,20 @@ export function useForm<T>(initialFieldValues: T) {
     setValues({ ...values, [name]: value });
   };
 
-  return { values, setValues, handleInputChange };
+  return { values, setValues, handleInputChange, errors, setErrors };
 }
 
-export const Form: React.FC = (props) => {
+interface Props {
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export const Form: React.FC<Props> = (props) => {
   const classes = useStyles();
-  return <form className={classes.rootForm}>{props.children}</form>;
+  const { handleSubmit } = props;
+
+  return (
+    <form className={classes.rootForm} onSubmit={handleSubmit}>
+      {props.children}
+    </form>
+  );
 };

@@ -3,8 +3,10 @@ import { Input, RadioGroup, Select, CheckBox } from "./Controls";
 import { useForm, Form } from "./useForm";
 import DatePicker from "./DatePicker";
 import { getDepartmentCollection } from "../services/employeeService";
+import Button from "./Button";
 
 enum gender {
+  // noinspection JSUnusedGlobalSymbols
   male = "male",
   female = "female",
   other = "other",
@@ -22,15 +24,39 @@ const initialFieldValues = {
   isPermanent: false,
 };
 
+type Fields = typeof initialFieldValues;
+
 const EmployeeForm = () => {
-  const { values, setValues, handleInputChange } = useForm(initialFieldValues);
+  const { values, setValues, errors, setErrors, handleInputChange } = useForm(
+    initialFieldValues
+  );
   const radioOptions = Object.keys(gender).map((item) => ({
     id: item,
     title: item[0].toUpperCase() + item.slice(1),
   }));
 
+  const validate = () => {
+    let temp: Pick<Fields, "fullName" | "email" | "mobile" | "departmentId"> = {
+      fullName: values.fullName ? "" : "This field is required",
+      email: /$|.+@.+..+/.test(values.email) ? "" : "Email is not valid",
+      mobile: values.mobile.length > 9 ? "" : "Minimum 10 numbers required",
+      departmentId:
+        values.departmentId.length !== 0 ? "" : "This field is required",
+    };
+    setErrors({ ...temp });
+
+    return Object.values(temp).every((item) => item === "");
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (validate()) {
+      console.log("hitting");
+    }
+  };
+
   return (
-    <Form>
+    <Form handleSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
           <Input
@@ -87,6 +113,10 @@ const EmployeeForm = () => {
               setValues({ ...values, isPermanent: !values.isPermanent });
             }}
           />
+          <div>
+            <Button text="Submit" type="submit" />
+            <Button text="Reset" color="default" handleClick={(e) => e} />
+          </div>
         </Grid>
       </Grid>
     </Form>

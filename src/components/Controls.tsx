@@ -29,6 +29,8 @@ export const Input: React.FC<ControlProps> = (props) => {
       value={value}
       name={name}
       onChange={onChange}
+      error
+      helperText="some validation error"
     />
   );
 };
