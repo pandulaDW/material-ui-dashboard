@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useStyles } from "../styles/Employees";
 
-export function useForm<T>(initialFieldValues: T) {
+export function useForm<T, U>(initialFieldValues: T) {
   const [values, setValues] = useState(initialFieldValues);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<U>();
 
   const handleInputChange = (
     e: React.ChangeEvent<

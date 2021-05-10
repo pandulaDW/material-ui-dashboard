@@ -6,7 +6,6 @@ import { getDepartmentCollection } from "../services/employeeService";
 import Button from "./Button";
 
 enum gender {
-  // noinspection JSUnusedGlobalSymbols
   male = "male",
   female = "female",
   other = "other",
@@ -25,27 +24,33 @@ const initialFieldValues = {
 };
 
 type Fields = typeof initialFieldValues;
+type ErrorFields = Partial<
+  Pick<Fields, "fullName" | "email" | "mobile" | "departmentId">
+>;
 
 const EmployeeForm = () => {
-  const { values, setValues, errors, setErrors, handleInputChange } = useForm(
-    initialFieldValues
-  );
+  const { values, setValues, errors, setErrors, handleInputChange } = useForm<
+    Fields,
+    ErrorFields
+  >(initialFieldValues);
+
   const radioOptions = Object.keys(gender).map((item) => ({
     id: item,
     title: item[0].toUpperCase() + item.slice(1),
   }));
 
   const validate = () => {
-    let temp: Pick<Fields, "fullName" | "email" | "mobile" | "departmentId"> = {
-      fullName: values.fullName ? "" : "This field is required",
-      email: /$|.+@.+..+/.test(values.email) ? "" : "Email is not valid",
-      mobile: values.mobile.length > 9 ? "" : "Minimum 10 numbers required",
-      departmentId:
-        values.departmentId.length !== 0 ? "" : "This field is required",
-    };
+    let temp: ErrorFields = {};
+
+    temp.fullName = values.fullName ? "" : "This field is required";
+    temp.email = /$|.+@.+..+/.test(values.email) ? "" : "Email is not valid";
+    temp.mobile = values.mobile.length > 9 ? "" : "Minimum 10 numbers required";
+    temp.departmentId =
+      values.departmentId.length !== 0 ? "" : "This field is required";
+
     setErrors({ ...temp });
 
-    return Object.values(temp).every((item) => item === "");
+    return Object.values(temp).some((item) => item === "");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,18 +69,21 @@ const EmployeeForm = () => {
             value={values.fullName}
             name="fullName"
             onChange={handleInputChange}
+            error={errors && errors.fullName}
           />
           <Input
             label="Email"
             value={values.email}
             name="email"
             onChange={handleInputChange}
+            error={errors && errors.email}
           />
           <Input
             label="Mobile"
             value={values.mobile}
             name="mobile"
             onChange={handleInputChange}
+            error={errors && errors.mobile}
           />
           <Input
             label="City"

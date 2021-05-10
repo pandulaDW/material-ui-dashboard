@@ -18,10 +18,11 @@ interface ControlProps {
       HTMLInputElement | { name?: string | undefined; value: unknown }
     >
   ) => void;
+  error?: string;
 }
 
 export const Input: React.FC<ControlProps> = (props) => {
-  const { label, value, name, onChange } = props;
+  const { label, value, name, error, onChange } = props;
   return (
     <TextField
       variant="outlined"
@@ -29,8 +30,7 @@ export const Input: React.FC<ControlProps> = (props) => {
       value={value}
       name={name}
       onChange={onChange}
-      error
-      helperText="some validation error"
+      {...(error && { error: true, helperText: error })}
     />
   );
 };
