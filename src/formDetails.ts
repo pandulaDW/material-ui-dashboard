@@ -18,7 +18,7 @@ export interface FormFields {
   mobile: string;
   city: string;
   gender: Gender;
-  departmentId: string;
+  departmentId: number;
   hireDate: Date;
   isPermanent: boolean;
 }
@@ -30,7 +30,7 @@ export const initialValues: FormFields = {
   mobile: "",
   city: "",
   gender: Gender.male,
-  departmentId: "",
+  departmentId: 0,
   hireDate: new Date(),
   isPermanent: false,
 };
@@ -41,7 +41,7 @@ export const validationSchema = yup.object({
     .string()
     .email("Enter a valid email")
     .required("Email is required"),
-  mobile: yup.string().length(10, "Enter a valid number"),
-  departmentId: yup.string().length(1, "DepartmentId is required"),
+  mobile: yup.string().min(9, "Enter a valid number"),
+  departmentId: yup.number().moreThan(0, "Department must be specified"),
   hireDate: yup.date(),
 });

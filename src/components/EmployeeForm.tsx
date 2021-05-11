@@ -1,4 +1,3 @@
-import React from "react";
 import { Grid } from "@material-ui/core";
 import { useFormik } from "formik";
 import { Form, Input, RadioGroup, Select, CheckBox } from "./FormControls";
@@ -18,8 +17,8 @@ const EmployeeForm = () => {
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
+    initialValues,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

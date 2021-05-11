@@ -28,7 +28,7 @@ export const Form: React.FC<FormProps> = (props) => {
 
 interface InputControlProps {
   label?: string;
-  value?: string;
+  value?: string | number;
   name: string;
   handleChange: (e: React.ChangeEvent<any>) => void;
   error?: boolean;
@@ -79,25 +79,27 @@ interface SelectProps extends InputControlProps {
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { name, label, value, handleChange: onChange, options, error } = props;
+  const { name, label, value, handleChange, options, error, helperText } =
+    props;
+
   return (
     <FormControl variant="outlined">
       <InputLabel>{label}</InputLabel>
       <MuiSelect
         label={label}
         name={name}
-        onChange={onChange}
+        onChange={handleChange}
         value={value}
         {...(error && { error: true })}
       >
-        <MenuItem value="">None</MenuItem>
+        <MenuItem value={0}>None</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.id} value={option.id}>
             {option.title}
           </MenuItem>
         ))}
       </MuiSelect>
-      <FormHelperText error>{error}</FormHelperText>
+      <FormHelperText error>{helperText}</FormHelperText>
     </FormControl>
   );
 };
