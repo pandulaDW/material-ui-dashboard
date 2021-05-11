@@ -5,6 +5,7 @@ import {
   Select as MuiSelect,
   MenuItem,
   Checkbox as MuiCheckBox,
+  FormHelperText,
 } from "@material-ui/core";
 import { Radio, RadioGroup as MuiRadioGroup } from "@material-ui/core";
 import { FormControl, FormLabel, FormControlLabel } from "@material-ui/core";
@@ -64,11 +65,17 @@ interface SelectProps extends ControlProps {
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { name, label, value, onChange, options } = props;
+  const { name, label, value, onChange, options, error } = props;
   return (
     <FormControl variant="outlined">
       <InputLabel>{label}</InputLabel>
-      <MuiSelect label={label} name={name} onChange={onChange} value={value}>
+      <MuiSelect
+        label={label}
+        name={name}
+        onChange={onChange}
+        value={value}
+        {...(error && { error: true })}
+      >
         <MenuItem value="">None</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.id} value={option.id}>
@@ -76,6 +83,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           </MenuItem>
         ))}
       </MuiSelect>
+      <FormHelperText error>{error}</FormHelperText>
     </FormControl>
   );
 };

@@ -1,3 +1,4 @@
+import React from "react";
 import { Grid } from "@material-ui/core";
 import { Input, RadioGroup, Select, CheckBox } from "./Controls";
 import { useForm, Form } from "./useForm";
@@ -29,10 +30,14 @@ type ErrorFields = Partial<
 >;
 
 const EmployeeForm = () => {
-  const { values, setValues, errors, setErrors, handleInputChange } = useForm<
-    Fields,
-    ErrorFields
-  >(initialFieldValues);
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    resetForm,
+    handleInputChange,
+  } = useForm<Fields, ErrorFields>(initialFieldValues);
 
   const radioOptions = Object.keys(gender).map((item) => ({
     id: item,
@@ -43,7 +48,9 @@ const EmployeeForm = () => {
     let temp: ErrorFields = {};
 
     temp.fullName = values.fullName ? "" : "This field is required";
-    temp.email = /$|.+@.+..+/.test(values.email) ? "" : "Email is not valid";
+    temp.email = /^\w+?@\w+\.\w{2,3}$/.test(values.email)
+      ? ""
+      : "Email is not valid";
     temp.mobile = values.mobile.length > 9 ? "" : "Minimum 10 numbers required";
     temp.departmentId =
       values.departmentId.length !== 0 ? "" : "This field is required";
@@ -105,6 +112,7 @@ const EmployeeForm = () => {
             value={values.departmentId}
             onChange={handleInputChange}
             options={getDepartmentCollection()}
+            error={errors?.departmentId}
           />
           <DatePicker
             value={values.hireDate}
@@ -123,7 +131,7 @@ const EmployeeForm = () => {
           />
           <div>
             <Button text="Submit" type="submit" />
-            <Button text="Reset" color="default" handleClick={(e) => e} />
+            <Button text="Reset" color="default" handleClick={resetForm} />
           </div>
         </Grid>
       </Grid>

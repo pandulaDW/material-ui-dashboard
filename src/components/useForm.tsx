@@ -16,7 +16,12 @@ export function useForm<T, U>(initialFieldValues: T) {
     setValues({ ...values, [name]: value });
   };
 
-  return { values, setValues, handleInputChange, errors, setErrors };
+  const resetForm = () => {
+    setValues(initialFieldValues);
+    setErrors(undefined);
+  };
+
+  return { values, setValues, handleInputChange, errors, setErrors, resetForm };
 }
 
 interface Props {
