@@ -9,39 +9,53 @@ import {
 } from "@material-ui/core";
 import { Radio, RadioGroup as MuiRadioGroup } from "@material-ui/core";
 import { FormControl, FormLabel, FormControlLabel } from "@material-ui/core";
+import { useStyles } from "../styles/Employees";
 
-interface ControlProps {
+interface FormProps {
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export const Form: React.FC<FormProps> = (props) => {
+  const classes = useStyles();
+  const { handleSubmit } = props;
+
+  return (
+    <form className={classes.rootForm} onSubmit={handleSubmit}>
+      {props.children}
+    </form>
+  );
+};
+
+interface InputControlProps {
   label?: string;
   value?: string;
   name: string;
-  onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | { name?: string | undefined; value: unknown }
-    >
-  ) => void;
-  error?: string;
+  handleChange: (e: React.ChangeEvent<any>) => void;
+  error?: boolean;
+  helperText?: string | boolean;
 }
 
-export const Input: React.FC<ControlProps> = (props) => {
-  const { label, value, name, error, onChange } = props;
+export const Input: React.FC<InputControlProps> = (props) => {
+  const { label, value, name, error, helperText, handleChange } = props;
   return (
     <TextField
       variant="outlined"
       label={label}
       value={value}
       name={name}
-      onChange={onChange}
-      {...(error && { error: true, helperText: error })}
+      onChange={handleChange}
+      error={error}
+      helperText={helperText}
     />
   );
 };
 
-interface RadioGroupProps extends ControlProps {
+interface RadioGroupProps extends InputControlProps {
   options: Array<{ id: string; title: string }>;
 }
 
 export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
-  const { name, value, onChange, options } = props;
+  const { name, value, handleChange: onChange, options } = props;
 
   return (
     <FormControl>
@@ -60,12 +74,12 @@ export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
   );
 };
 
-interface SelectProps extends ControlProps {
+interface SelectProps extends InputControlProps {
   options: Array<{ id: number; title: string }>;
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { name, label, value, onChange, options, error } = props;
+  const { name, label, value, handleChange: onChange, options, error } = props;
   return (
     <FormControl variant="outlined">
       <InputLabel>{label}</InputLabel>
@@ -88,16 +102,16 @@ export const Select: React.FC<SelectProps> = (props) => {
   );
 };
 
-interface CheckBoxProps extends ControlProps {
+interface CheckBoxProps extends InputControlProps {
   checked: boolean;
 }
 
 export const CheckBox: React.FC<CheckBoxProps> = (props) => {
-  const { label, checked, name, onChange } = props;
+  const { label, checked, name, handleChange } = props;
   return (
     <FormControlLabel
       control={
-        <MuiCheckBox checked={checked} name={name} onChange={onChange} />
+        <MuiCheckBox checked={checked} name={name} onChange={handleChange} />
       }
       label={label}
     />

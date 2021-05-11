@@ -1,137 +1,103 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { Input, RadioGroup, Select, CheckBox } from "./Controls";
-import { useForm, Form } from "./useForm";
+import { useFormik } from "formik";
+import { Form, Input, RadioGroup, Select, CheckBox } from "./FormControls";
+import {
+  radioOptions,
+  initialValues,
+  validationSchema,
+  FormFields,
+} from "../formDetails";
 import DatePicker from "./DatePicker";
 import { getDepartmentCollection } from "../services/employeeService";
 import Button from "./Button";
 
-enum gender {
-  male = "male",
-  female = "female",
-  other = "other",
-}
-
-const initialFieldValues = {
-  id: 0,
-  fullName: "",
-  email: "",
-  mobile: "",
-  city: "",
-  gender: gender.male,
-  departmentId: "",
-  hireDate: new Date(),
-  isPermanent: false,
-};
-
-type Fields = typeof initialFieldValues;
-type ErrorFields = Partial<
-  Pick<Fields, "fullName" | "email" | "mobile" | "departmentId">
->;
-
 const EmployeeForm = () => {
-  const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    resetForm,
-    handleInputChange,
-  } = useForm<Fields, ErrorFields>(initialFieldValues);
-
-  const radioOptions = Object.keys(gender).map((item) => ({
-    id: item,
-    title: item[0].toUpperCase() + item.slice(1),
-  }));
-
-  const validate = () => {
-    let temp: ErrorFields = {};
-
-    temp.fullName = values.fullName ? "" : "This field is required";
-    temp.email = /^\w+?@\w+\.\w{2,3}$/.test(values.email)
-      ? ""
-      : "Email is not valid";
-    temp.mobile = values.mobile.length > 9 ? "" : "Minimum 10 numbers required";
-    temp.departmentId =
-      values.departmentId.length !== 0 ? "" : "This field is required";
-
-    setErrors({ ...temp });
-
-    return Object.values(temp).some((item) => item === "");
+  const handleSubmit = (values: FormFields) => {
+    alert(JSON.stringify(values, null, 2));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("hitting");
-    }
-  };
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: handleSubmit,
+  });
 
   return (
-    <Form handleSubmit={handleSubmit}>
+    <Form handleSubmit={formik.handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
           <Input
             label="Full Name"
-            value={values.fullName}
+            value={formik.values.fullName}
             name="fullName"
-            onChange={handleInputChange}
-            error={errors && errors.fullName}
+            handleChange={formik.handleChange}
+            error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+            helperText={formik.touched.fullName && formik.errors.fullName}
           />
           <Input
             label="Email"
-            value={values.email}
+            value={formik.values.email}
             name="email"
-            onChange={handleInputChange}
-            error={errors && errors.email}
+            handleChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <Input
             label="Mobile"
-            value={values.mobile}
+            value={formik.values.mobile}
             name="mobile"
-            onChange={handleInputChange}
-            error={errors && errors.mobile}
+            handleChange={formik.handleChange}
+            error={formik.touched.mobile && Boolean(formik.errors.mobile)}
+            helperText={formik.touched.mobile && formik.errors.mobile}
           />
           <Input
             label="City"
-            value={values.city}
+            value={formik.values.city}
             name="city"
-            onChange={handleInputChange}
+            handleChange={formik.handleChange}
           />
         </Grid>
         <Grid item xs={6}>
           <RadioGroup
             name="gender"
-            value={values.gender}
-            onChange={handleInputChange}
+            value={formik.values.gender}
+            handleChange={formik.handleChange}
             options={radioOptions}
           />
           <Select
             name="departmentId"
             label="Department"
-            value={values.departmentId}
-            onChange={handleInputChange}
+            value={formik.values.departmentId}
+            handleChange={formik.handleChange}
             options={getDepartmentCollection()}
-            error={errors?.departmentId}
+            error={
+              formik.touched.departmentId && Boolean(formik.errors.departmentId)
+            }
+            helperText={
+              formik.touched.departmentId && formik.errors.departmentId
+            }
           />
           <DatePicker
-            value={values.hireDate}
+            value={formik.values.hireDate}
             label="Hire Date"
             handleChange={(date) => {
-              if (date) setValues({ ...values, hireDate: date });
+              if (date) formik.setValues({ ...formik.values, hireDate: date });
             }}
           />
           <CheckBox
-            checked={values.isPermanent}
+            checked={formik.values.isPermanent}
             name={"isPermanent"}
             label="Permanent Employee"
-            onChange={() => {
-              setValues({ ...values, isPermanent: !values.isPermanent });
-            }}
+            handleChange={formik.handleChange}
           />
           <div>
             <Button text="Submit" type="submit" />
-            <Button text="Reset" color="default" handleClick={resetForm} />
+            <Button
+              text="Reset"
+              color="default"
+              handleClick={formik.handleReset}
+            />
           </div>
         </Grid>
       </Grid>
