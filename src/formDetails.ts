@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as yup from "yup";
 
 export enum Gender {
@@ -15,10 +16,10 @@ export interface FormFields {
   id: number;
   fullName: string;
   email: string;
-  mobile: string;
+  mobile: string | undefined;
   city: string;
   gender: Gender;
-  departmentId: number;
+  departmentId: number | undefined;
   hireDate: Date;
   isPermanent: boolean;
 }
@@ -35,7 +36,12 @@ export const initialValues: FormFields = {
   isPermanent: false,
 };
 
-export const validationSchema = yup.object({
+type ValidationFields = Pick<
+  FormFields,
+  "fullName" | "email" | "mobile" | "departmentId"
+>;
+
+export const validationSchema: yup.SchemaOf<ValidationFields> = yup.object({
   fullName: yup.string().required("FullName is required"),
   email: yup
     .string()
@@ -43,5 +49,8 @@ export const validationSchema = yup.object({
     .required("Email is required"),
   mobile: yup.string().min(9, "Enter a valid number"),
   departmentId: yup.number().moreThan(0, "Department must be specified"),
-  hireDate: yup.date(),
 });
+
+export const handleSubmit = async (values: FormFields) => {
+  await axios.post("http://localhost:3001/employees", values);
+};

@@ -5,17 +5,13 @@ import {
   radioOptions,
   initialValues,
   validationSchema,
-  FormFields,
+  handleSubmit,
 } from "../formDetails";
 import DatePicker from "./DatePicker";
 import { getDepartmentCollection } from "../services/employeeService";
 import Button from "./Button";
 
 const EmployeeForm = () => {
-  const handleSubmit = (values: FormFields) => {
-    alert(JSON.stringify(values, null, 2));
-  };
-
   const formik = useFormik({
     initialValues,
     validationSchema,
