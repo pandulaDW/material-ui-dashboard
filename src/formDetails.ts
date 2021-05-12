@@ -51,6 +51,6 @@ export const validationSchema: yup.SchemaOf<ValidationFields> = yup.object({
   departmentId: yup.number().moreThan(0, "Department must be specified"),
 });
 
-export const handleSubmit = async (values: FormFields) => {
+export const createEmployee = async (values: FormFields) => {
   await axios.post("http://localhost:3001/employees", values);
 };

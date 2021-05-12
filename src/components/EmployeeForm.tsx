@@ -5,13 +5,22 @@ import {
   radioOptions,
   initialValues,
   validationSchema,
-  handleSubmit,
+  FormFields,
+  createEmployee,
 } from "../formDetails";
 import DatePicker from "./DatePicker";
+import useSnackBar from "./useSnackBar";
 import { getDepartmentCollection } from "../services/employeeService";
 import Button from "./Button";
 
 const EmployeeForm = () => {
+  const { setOpen, SnackBarComponent } = useSnackBar();
+
+  const handleSubmit = async (values: FormFields) => {
+    await createEmployee(values);
+    setOpen(true);
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -20,6 +29,7 @@ const EmployeeForm = () => {
 
   return (
     <Form handleSubmit={formik.handleSubmit}>
+      {SnackBarComponent}
       <Grid container>
         <Grid item xs={6}>
           <Input

@@ -10,6 +10,61 @@
       "departmentId": 3,
       "hireDate": "2021-05-01T17:03:00.000Z",
       "isPermanent": false
+    },
+    {
+      "id": 2,
+      "fullName": "Pandula Weerasooriya",
+      "email": "pandula.official@gmail.com",
+      "mobile": "07731358822",
+      "city": "Colombo",
+      "gender": "other",
+      "departmentId": 3,
+      "hireDate": "2021-05-02T17:24:00.000Z",
+      "isPermanent": true
+    },
+    {
+      "id": 3,
+      "fullName": "Pandula Weerasooriya",
+      "email": "pandula.official@gmail.com",
+      "mobile": "07731358822",
+      "city": "Minuwangoda",
+      "gender": "male",
+      "departmentId": 2,
+      "hireDate": "2021-05-02T17:24:00.000Z",
+      "isPermanent": false
+    },
+    {
+      "id": 4,
+      "fullName": "Pandula Weerasooriya",
+      "email": "pandula.official@gmail.com",
+      "mobile": "07731358822",
+      "city": "Minuwangoda",
+      "gender": "male",
+      "departmentId": 2,
+      "hireDate": "2021-05-02T17:24:00.000Z",
+      "isPermanent": false
+    },
+    {
+      "id": 5,
+      "fullName": "Vimu",
+      "email": "test2@test.com",
+      "mobile": "0992333211",
+      "city": "Aus",
+      "gender": "male",
+      "departmentId": 2,
+      "hireDate": "2021-05-12T17:33:03.102Z",
+      "isPermanent": true
+    },
+    {
+      "id": 6,
+      "fullName": "Pandula Weerasooriya",
+      "email": "test@test.com",
+      "mobile": "0773135912",
+      "city": "Uli",
+      "gender": "other",
+      "departmentId": 2,
+      "hireDate": "2021-05-29T17:39:00.000Z",
+      "isPermanent": true
     }
   ]
 }
